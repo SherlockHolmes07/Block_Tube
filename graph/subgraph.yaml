@@ -1,0 +1,24 @@
+specVersion: 0.0.5
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum
+    name: blocktube
+    network: mumbai
+    source:
+      address: "0x6f655F183E02B9C68774a79A75f5E32102Ce7354"
+      abi: blocktube
+      startBlock: 30373232
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - videoUploaded
+      abis:
+        - name: blocktube
+          file: ./abis/blocktube.json
+      eventHandlers:
+        - event: videoUploaded(uint256,uint256,string,string,string,string,address)
+          handler: handlevideoUploaded
+      file: ./src/blocktube.ts
