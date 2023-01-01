@@ -11,6 +11,7 @@
   "dependencies": {
     "@livepeer/react": "^1.5.6",
     "@next/font": "13.1.1",
+    "axios": "^1.2.2",
     "bootstrap": "^5.2.3",
     "bootstrap-icons": "^1.10.2",
     "buffer": "^6.0.3",
@@ -19,6 +20,8 @@
     "ethers": "^5.7.2",
     "ipfs-http-client": "^59.0.0",
     "next": "13.1.1",
+    "plyr": "^3.7.3",
+    "plyr-react": "^5.1.2",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "web3modal": "^1.9.10"

@@ -5,8 +5,9 @@ import Web3Modal from "web3modal";
 import { providers} from "ethers";
 import { useEffect, useRef, useState } from "react";
 import Upload from "./upload";
+import Home from "./home";
 
-export default function Home() {
+export default function Index() {
 
     // walletConnected keep track of whether the user's wallet is connected or not
     const [walletConnected, setWalletConnected] = useState(false);
@@ -103,7 +104,7 @@ export default function Home() {
        }
        else if(pageDisplay === "home") {
         return (
-          <h1>Home</h1>
+          <Home getProviderOrSigner={getProviderOrSigner} />
         )
        }
 
