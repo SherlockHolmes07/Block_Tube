@@ -27,6 +27,8 @@ export default function Index() {
       // Since we store `web3Modal` as a reference, we need to access the `current` value to get access to the underlying object
       const provider = await web3ModalRef.current.connect();
       const web3Provider = new providers.Web3Provider(provider);
+
+      
   
       // If user is not connected to the Goerli network, let them know and throw an error
       const { chainId } = await web3Provider.getNetwork();
@@ -74,7 +76,9 @@ export default function Index() {
         connectWallet();
       }
     }, [walletConnected]);
- 
+
+
+    
 
     const renderProfile = () => {
       // if wallet is connected, display the user's address
@@ -98,13 +102,18 @@ export default function Index() {
     // renderPage is used to render the page based on the user's action
     const renderPage = () => {
        if(pageDisplay === "upload") {
+        if(!walletConnected) return(
+          <div className="alert alert-danger" role="alert">
+            Please connect your wallet to upload a video
+          </div>
+        )
         return (
           <Upload getProviderOrSigner={getProviderOrSigner} />
         )
        }
        else if(pageDisplay === "home") {
         return (
-          <Home getProviderOrSigner={getProviderOrSigner} />
+          <Home getProviderOrSigner={getProviderOrSigner} pageDisplay={pageDisplay} setPageDisplay={setPageDisplay}/>
         )
        }
 

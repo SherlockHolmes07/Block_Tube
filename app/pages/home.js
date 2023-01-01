@@ -7,9 +7,10 @@ import { Player } from "@livepeer/react";
 import { ABI, contractAddress } from "../constants";
 import { ethers } from "ethers";
 import { subgraphQuery } from "../utils";
+import Link from 'next/link'
 
 
-export default function home({ getProviderOrSigner }) {
+export default function home({ setPageDisplay }) {
   const [videos, setVideos] = useState([]);
 
   const getVideos = async () => {
@@ -25,9 +26,10 @@ export default function home({ getProviderOrSigner }) {
             }
           }`;
 
-    const data = await subgraphQuery(query);
-    setVideos(data.videoUploadeds);
-    console.log(data.videoUploadeds);
+    let data = await subgraphQuery(query);
+    let data2 = [...data.videoUploadeds]
+    setVideos(data2);
+    console.log(data2);
   };
 
   useEffect(() => {
@@ -36,9 +38,9 @@ export default function home({ getProviderOrSigner }) {
 
   return (
     <>
-      <div className="justify-content-around">
+      <div className="d-flex flex-row flex-wrap justify-content-around" style={{flexWrap: "wrap"}}>
         {videos.map((video) => (
-          <div style={{ width: "600px", height: "600px", margin: "20px" }}>
+          <div style={{ width: "360px", height: "400px", marginTop: "7px", cursor: "pointer" }}>
             <Player
               title={video.title}
               playbackId={video.location}
@@ -53,8 +55,7 @@ export default function home({ getProviderOrSigner }) {
                 radii: { containerBorderRadius: "10px" },
               }}
             />
-            {video.location}
-            {video.title}
+            <Link href='/videos/[id]' as={'/videos/' + video.location}>{video.title}</Link>
           </div>
         ))}
       </div>

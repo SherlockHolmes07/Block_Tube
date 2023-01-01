@@ -8,6 +8,7 @@ import { createAsset, useCreateAsset, useLivepeerProvider } from "@livepeer/reac
 import { Player } from '@livepeer/react';
 import { ABI, contractAddress } from "../constants";
 import { ethers } from "ethers";
+import { useRouter } from 'next/router'
 
 
 export default function Upload( {getProviderOrSigner} ) {
@@ -61,7 +62,7 @@ export default function Upload( {getProviderOrSigner} ) {
       console.log(tx);
   }
 
-
+  
 
   return (
     <div>
