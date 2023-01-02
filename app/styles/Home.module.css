@@ -22,3 +22,20 @@
   margin-left: 5px;
   cursor: ponter;
 }
+
+.address{
+  border: 1px solid #9FAECF;
+  border-radius: 19px;
+  padding: 9px;
+  margin-top: 20px;
+  background-color: #9FAECF;
+}
+
+.description{
+  margin-top: 27px;
+  margin-left: 20px;
+  border: 1px solid #9FAECF;
+  border-radius: 19px;
+  padding: 16px;
+  background-color: #9FAECF;
+}
