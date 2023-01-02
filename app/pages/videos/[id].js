@@ -15,6 +15,7 @@ export default function Video({ pageDisplay, setPageDisplay }) {
   const router = useRouter();
 
   const [data, setData] = useState(null);
+  const [relatedVideos, setRelatedVideos] = useState([]);
 
 
   const getVideo = async () => {
@@ -27,6 +28,7 @@ export default function Video({ pageDisplay, setPageDisplay }) {
             location
             title
             description
+            category
             owner
         }
       }`;
@@ -34,14 +36,31 @@ export default function Video({ pageDisplay, setPageDisplay }) {
     const data = await subgraphQuery(query);
     setData(data.videoUploadeds[0]);
     console.log(data.videoUploadeds[0]);
+    const category = data.videoUploadeds[0].category;
+    const query2 = `query{
+       videoUploadeds(where: {category: "${category}"}, orderBy: videoNumber, orderDirection: desc) {
+           id
+           videoNumber
+           date
+           location
+           title
+           description
+           category
+           owner
+       }
+    }`
+    const data2 = await subgraphQuery(query2);
+    setRelatedVideos(data2.videoUploadeds);
+    console.log(data2.videoUploadeds);
   };
-
   
     useEffect(() => { 
         getVideo();
-       
     },[]);
-      
+
+    useEffect(() => { 
+        getVideo();
+    },[router.query.id]);
   
   console.log("data: " + data);
 
@@ -68,7 +87,7 @@ export default function Video({ pageDisplay, setPageDisplay }) {
 
         <div className="container-fluid" style={{marginTop: "90px"}}>
           <div className="row">
-            <div className="col-sm-10 col-md-8 col-lg-8 col-xl-8" style={{minHeight: "200px"}}>
+            <div className="col-sm-10 col-md-8 col-lg-8 col-xl-8" style={{minHeight: "200px", maxHeight: "500px"}}>
                {data ?
               <Player
               title={data.title}
@@ -86,14 +105,33 @@ export default function Video({ pageDisplay, setPageDisplay }) {
             />  : <h1>Loading...</h1>}
             <br />
              {data ? <><span className="mt-2 m-3 fs-5 fw-semibold">{data.title}</span> <span style={{marginLeft: "480px", fontWeight: "700"}} className={styles.address}>{data.owner.slice(0,6) + "..." + data.owner.slice(-4)}</span></> : <></>}
+
              {data  ? <div className={styles.description}>
               <p className="fw-semibold fs-5">Description: </p>
                <span style={{ fontSize: "18px", fontWeight: "450"}}> {data.description} </span>
              </div> : <></>}
+
             </div>
             <div className="col-sm-2 col-md-4 col-lg-4 col-xl-4">
-                <div className="container-fluid">
-                </div>
+            { relatedVideos.map((video) => (
+          <div style={{ width: "400px", height: "240px", marginTop: "20px", cursor: "pointer", paddingBottom: "20px" }}>
+            <Player
+              title={video.title}
+              playbackId={video.location}
+              showPipButton
+              showTitle={false}
+              aspectRatio="16to16"
+              controls={{
+                autohide: 3000,
+              }}
+              theme={{
+                borderStyles: { containerBorderStyle: "hidden" },
+                radii: { containerBorderRadius: "10px" },
+              }}
+            />
+            <Link href='/videos/[id]' as={'/videos/' + video.location}>{video.title}</Link>
+          </div>
+        ))}
             </div>
           </div>
         </div>

@@ -15,7 +15,7 @@ export default function home({ setPageDisplay }) {
 
   const getVideos = async () => {
     const query = `query {
-            videoUploadeds(orderBy: videoNumber, orderDirection: asc) {
+            videoUploadeds(orderBy: videoNumber, orderDirection: desc) {
               id
               videoNumber
               date
@@ -40,7 +40,7 @@ export default function home({ setPageDisplay }) {
     <>
       <div className="d-flex flex-row flex-wrap justify-content-around" style={{flexWrap: "wrap"}}>
         {videos.map((video) => (
-          <div style={{ width: "360px", height: "400px", marginTop: "7px", cursor: "pointer" }}>
+          <div style={{ width: "360px", height: "230px", marginTop: "7px", cursor: "pointer", paddingBottom: "40px" }}>
             <Player
               title={video.title}
               playbackId={video.location}
